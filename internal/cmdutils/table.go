@@ -14,13 +14,15 @@ type TableWriter interface {
 type tableWriter struct {
 	headers []string
 	data    [][]string
+	colors  []tablewriter.Colors
 	writer  io.Writer
 }
 
-func NewTableWriter(headers []string, data [][]string, writer io.Writer) TableWriter {
+func NewTableWriter(headers []string, data [][]string, colors []tablewriter.Colors, writer io.Writer) TableWriter {
 	return tableWriter{
 		headers: headers,
 		data:    data,
+		colors:  colors,
 		writer:  writer,
 	}
 }
@@ -45,19 +47,11 @@ func (t tableWriter) Write() error {
 	table.SetColumnSeparator("")
 	table.SetTablePadding("  ") // two spaces
 	table.SetNoWhiteSpace(true)
-	table.SetAutoWrapText(false)
+	table.SetAutoWrapText(true)
 
-	table.SetColumnColor(
-		tablewriter.Colors{tablewriter.Normal, 93},
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-		nil,
-	)
+	if t.colors != nil {
+		table.SetColumnColor(t.colors...)
+	}
 
 	table.Render()
 

@@ -37,7 +37,7 @@ func TestTableWriter(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var output bytes.Buffer
-			tw := NewTableWriter(tt.headers, tt.rows, &output)
+			tw := NewTableWriter(tt.headers, tt.rows, nil, &output)
 			err := tw.Write()
 			assert.NoError(t, err)
 			assert.Equal(t, tt.want, output.String())

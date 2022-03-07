@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/chelnak/gh-iac/cmd/repo"
 	"github.com/spf13/cobra"
 )
 
@@ -13,9 +14,9 @@ var ErrSilent = errors.New("ErrSilent")
 
 // RootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:           "iac [command]",
-	Short:         "Wrk with Puppet GitHub Repoisitories",
-	Long:          "WWork with Puppet GitHub Repoisitories",
+	Use:           "ppt [command]",
+	Short:         "Work with Puppet GitHub Repoisitories",
+	Long:          "Work with Puppet GitHub Repoisitories",
 	Version:       version,
 	SilenceErrors: true,
 	SilenceUsage:  true,
@@ -28,6 +29,8 @@ func init() {
 		cmd.Println(cmd.UsageString())
 		return ErrSilent
 	})
+
+	rootCmd.AddCommand(repo.RepoRootCmd)
 }
 
 func Execute() int {
