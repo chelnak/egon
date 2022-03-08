@@ -5,12 +5,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// auditCmd represents the list command
+// auditCmd represents the audit command
 var auditCmd = &cobra.Command{
-	Use:     "audit audit [flags]",
-	Short:   "Audit repo settings.",
-	Long:    "Audit repo settings.",
-	Aliases: []string{"ls"},
+	Use:   "audit [flags]",
+	Short: "Audit repo settings.",
+	Long:  "Audit repo settings.",
 	RunE: func(command *cobra.Command, args []string) error {
 		err := audit.ListRepositorySettings()
 		if err != nil {
