@@ -51,7 +51,6 @@ func ListRepositorySettings() error {
 	}
 
 	for _, module := range *modules {
-
 		s := strings.Split(module.Repo, "/")
 		entity, _, err := g.Repositories.Get(ctx, s[0], s[1])
 		if err != nil {
@@ -93,7 +92,6 @@ func ListRepositorySettings() error {
 		}
 
 		data = append(data, row)
-
 	}
 
 	err = spinner.Stop()
@@ -109,5 +107,4 @@ func ListRepositorySettings() error {
 	}
 
 	return nil
-
 }
