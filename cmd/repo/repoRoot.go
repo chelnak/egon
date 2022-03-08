@@ -4,6 +4,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	repo  string
+	limit int
+)
+
 // RepoRootCmd represents the base command when called without any subcommands
 var RepoRootCmd = &cobra.Command{
 	Use:   "repo [command]",
