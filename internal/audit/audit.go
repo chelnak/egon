@@ -62,6 +62,7 @@ func ListRepositorySettings() error {
 				PerPage: 100,
 			},
 		}
+
 		issues, _, err := g.Issues.ListByRepo(ctx, s[0], s[1], &listRepoOpts)
 		if err != nil {
 			return err
@@ -72,23 +73,27 @@ func ListRepositorySettings() error {
 				PerPage: 100,
 			},
 		}
+
 		prs, _, err := g.PullRequests.List(ctx, s[0], s[1], &listPROpts)
 		if err != nil {
 			return err
 		}
 
+		issueCount := len(issues)
+		prCount := len(prs)
+
 		row := []string{
 			module.Repo,
 			*entity.DefaultBranch,
-			strconv.FormatBool(*entity.HasIssues),
-			strconv.FormatBool(*entity.HasProjects),
-			strconv.FormatBool(*entity.HasWiki),
-			strconv.FormatBool(*entity.HasPages),
-			strconv.FormatBool(*entity.HasDownloads),
-			strconv.FormatBool(*entity.Archived),
+			strconv.FormatBool(entity.GetHasIssues()),
+			strconv.FormatBool(entity.GetHasProjects()),
+			strconv.FormatBool(entity.GetHasWiki()),
+			strconv.FormatBool(entity.GetHasPages()),
+			strconv.FormatBool(entity.GetHasDownloads()),
+			strconv.FormatBool(entity.GetArchived()),
 			strconv.FormatBool(entity.GetDeleteBranchOnMerge()),
-			strconv.Itoa(len(issues)),
-			strconv.Itoa(len(prs)),
+			strconv.Itoa(issueCount - prCount), // issues seems to be inclusive of issues and prs, so we need to subtract prs
+			strconv.Itoa(prCount),
 		}
 
 		data = append(data, row)
