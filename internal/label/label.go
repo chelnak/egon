@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-github/v42/github"
 )
 
-func LabelCommunityIssues(repo string) error {
+func LabelCommunityIssues(repo string, limit int) error {
 	labelName := "community"
 	labelColor := "5319E7"
 	orgName := "puppetlabs"
@@ -22,7 +22,7 @@ func LabelCommunityIssues(repo string) error {
 	ctx := context.Background()
 
 	searchOpts := &github.SearchOptions{
-		ListOptions: github.ListOptions{PerPage: 100},
+		ListOptions: github.ListOptions{PerPage: limit},
 	}
 	searchResult, _, err := g.Search.Issues(ctx, fmt.Sprintf("repo:%s/%s state:open", orgName, repo), searchOpts)
 	if err != nil {
