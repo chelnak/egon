@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-github/v42/github"
 )
 
-func CloseIssuesOlderThan(repoName, date string, close bool) error {
+func CloseIssuesOlderThan(repoName, date string, close bool, limit int) error {
 	ctx := context.Background()
 	repoOwner := "puppetlabs"
 
@@ -18,7 +18,7 @@ func CloseIssuesOlderThan(repoName, date string, close bool) error {
 	}
 	client := github.NewClient(httpClient)
 
-	issues, _, err := client.Search.Issues(ctx, fmt.Sprintf("repo:%v/%v updated:<=%v type:issue state:open", repoOwner, repoName, date), &github.SearchOptions{ListOptions: github.ListOptions{PerPage: 100}})
+	issues, _, err := client.Search.Issues(ctx, fmt.Sprintf("repo:%v/%v updated:<=%v type:issue state:open", repoOwner, repoName, date), &github.SearchOptions{ListOptions: github.ListOptions{PerPage: limit}})
 	if err != nil {
 		return err
 	}
