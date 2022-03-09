@@ -16,7 +16,7 @@ var issueCmd = &cobra.Command{
 	Short: "Query for and optionally close issues for a given date.",
 	Long:  "Query for and optionally close issues for a given date.",
 	RunE: func(command *cobra.Command, args []string) error {
-		err := issue.CloseIssuesOlderThan(name, date, close)
+		err := issue.CloseIssuesOlderThan(name, date, close, limit)
 		if err != nil {
 			return err
 		}
@@ -30,4 +30,5 @@ func init() {
 	issueCmd.Flags().StringVarP(&name, "name", "n", "", "Name of the repository.")
 	issueCmd.Flags().StringVarP(&date, "date", "d", "2017-01-01", "Returns issues before the specified date. Date format: 'yyyy-MM-dd' (Default: '2017-01-01')")
 	issueCmd.Flags().BoolVarP(&close, "close", "c", false, "Closes issues returned by the query.")
+	issueCmd.Flags().IntVarP(&limit, "limit", "l", 100, "Limit the number of issues to label.")
 }
