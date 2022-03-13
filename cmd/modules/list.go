@@ -1,11 +1,11 @@
-package cmd
+package modules
 
 import (
 	"github.com/chelnak/gh-iac/internal/modules"
 	"github.com/spf13/cobra"
 )
 
-// listCmd represents the list command
+// listCmd returns the list of modules supported by the content and tooling team.
 var listCmd = &cobra.Command{
 	Use:     "list",
 	Short:   "List modules that are supported by the modules team.",
@@ -18,8 +18,4 @@ var listCmd = &cobra.Command{
 		}
 		return nil
 	},
-}
-
-func init() {
-	rootCmd.AddCommand(listCmd)
 }

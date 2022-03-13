@@ -3,7 +3,6 @@ package modules
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/chelnak/gh-iac/internal/cmdutils"
 	"github.com/olekukonko/tablewriter"
@@ -17,11 +16,8 @@ func ListModules() error {
 		return err
 	}
 
-	headers := []string{"Name", "Repo", "Description", "Categories"}
-	colors := []tablewriter.Colors{
-		{tablewriter.Normal, 93},
-		nil, nil, nil,
-	}
+	headers := []string{"Name", "Repo"}
+	colors := []tablewriter.Colors{{tablewriter.Normal, 93}, nil}
 
 	data := [][]string{}
 
@@ -29,8 +25,6 @@ func ListModules() error {
 		row := []string{
 			module.Name,
 			fmt.Sprintf("https://github.com/puppetlabs/%s", module.Repo),
-			module.Description,
-			strings.Join(module.Categories, ","),
 		}
 
 		data = append(data, row)
