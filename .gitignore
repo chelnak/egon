@@ -1,3 +1,5 @@
 /gh-iac*
 dist
 CHANGELOG.md
+.DS_Store
+*.csv

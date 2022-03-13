@@ -39,7 +39,6 @@ func (m *ModuleClient) GetSupportedModules(ctx context.Context) (*[]Module, erro
 	if err = json.NewDecoder(res.Body).Decode(response); err != nil {
 		return nil, err
 	}
-
 	return response, nil
 }
 

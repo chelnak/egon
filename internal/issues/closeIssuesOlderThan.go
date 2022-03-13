@@ -1,4 +1,4 @@
-package issue
+package issues
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/google/go-github/v42/github"
 )
 
-func CloseIssuesOlderThan(repoName, date string, close bool, limit int) error {
+func CloseIssuesOlderThan(repoName, date string, dryRun bool, limit int) error {
 	ctx := context.Background()
 	repoOwner := "puppetlabs"
 
@@ -23,13 +23,11 @@ func CloseIssuesOlderThan(repoName, date string, close bool, limit int) error {
 		return err
 	}
 
-	fmt.Printf("Total: %v\n", *issues.Total)
-	for i, iss := range issues.Issues {
-		fmt.Printf("Issue %v: %v - %v \n", i+1, *iss.Title, iss.UpdatedAt.Format("2006-01-02"))
-	}
+	closedIssues := 0
+	for _, issue := range issues.Issues {
+		fmt.Printf("Issue %v: %v - %v \n", *issue.Number, *issue.Title, issue.UpdatedAt.Format("2006-01-02"))
 
-	if close {
-		for _, issue := range issues.Issues {
+		if !dryRun {
 			body := "Hello! We are doing some house keeping and noticed that this issue has been open for a long time.\n\nWe're going to close it but please do raise another issue if the issue still persists. 😄"
 			_, _, err := client.Issues.CreateComment(ctx, repoOwner, repoName, *issue.Number, &github.IssueComment{Body: &body})
 			if err != nil {
@@ -40,9 +38,12 @@ func CloseIssuesOlderThan(repoName, date string, close bool, limit int) error {
 			if err != nil {
 				return err
 			}
+			closedIssues++
 		}
-		fmt.Printf("%v issues closed in the %v repository", *issues.Total, repoName)
 	}
 
+	fmt.Println()
+	fmt.Printf("Total issues: %v\n", *issues.Total)
+	fmt.Printf("Closed issues: %v\n", closedIssues)
 	return nil
 }
