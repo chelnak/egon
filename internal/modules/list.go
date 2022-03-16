@@ -9,6 +9,7 @@ import (
 )
 
 func ListModules() error {
+
 	client := NewModuleClient(nil)
 	ctx := context.Background()
 	modules, err := client.GetSupportedModules(ctx)
