@@ -10,3 +10,5 @@ install:
 
 upgrade:
 	@gh extension upgrade chelnak/gh-iac
+
+
