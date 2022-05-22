@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/chelnak/gh-iac/cmd"
+	"github.com/chelnak/purr/cmd"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-package cmdutils
+package writers
 
 import (
 	"io"
@@ -7,10 +7,6 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-type TableWriter interface {
-	Write() error
-}
-
 type tableWriter struct {
 	headers []string
 	data    [][]string
@@ -18,7 +14,7 @@ type tableWriter struct {
 	writer  io.Writer
 }
 
-func NewTableWriter(headers []string, data [][]string, colors []tablewriter.Colors, writer io.Writer) TableWriter {
+func NewTableWriter(headers []string, data [][]string, colors []tablewriter.Colors, writer io.Writer) Writer {
 	return tableWriter{
 		headers: headers,
 		data:    data,
@@ -33,21 +29,20 @@ func (t tableWriter) Write() error {
 	}
 
 	table := tablewriter.NewWriter(t.writer)
-
-	for _, d := range t.data {
-		table.Append(d)
-	}
+	table.AppendBulk(t.data)
 
 	table.SetHeader(t.headers)
 	table.SetBorder(false)
-	table.SetRowLine(false)
+	//table.SetRowLine(true)
 	table.SetHeaderLine(true)
+	table.SetRowSeparator("─")
+	table.SetCenterSeparator("")
 	table.SetHeaderAlignment(tablewriter.ALIGN_LEFT)
 	table.SetAutoFormatHeaders(false)
-	table.SetColumnSeparator("")
-	table.SetTablePadding("  ") // two spaces
+	table.SetTablePadding("   ") // two spaces
 	table.SetNoWhiteSpace(true)
 	table.SetAutoWrapText(true)
+	table.SetReflowDuringAutoWrap(true)
 
 	if t.colors != nil {
 		table.SetColumnColor(t.colors...)

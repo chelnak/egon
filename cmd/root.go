@@ -1,3 +1,4 @@
+//Package cmd contains top level cli commands.
 package cmd
 
 import (
@@ -5,10 +6,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/chelnak/gh-iac/cmd/audit"
-	"github.com/chelnak/gh-iac/cmd/issues"
-	"github.com/chelnak/gh-iac/cmd/labels"
-	"github.com/chelnak/gh-iac/cmd/modules"
+	"github.com/chelnak/purr/cmd/audit"
+	"github.com/chelnak/purr/cmd/labels"
+	"github.com/chelnak/purr/cmd/modules"
+	"github.com/chelnak/purr/cmd/tools"
 	"github.com/spf13/cobra"
 )
 
@@ -17,9 +18,9 @@ var ErrSilent = errors.New("ErrSilent")
 
 // RootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:           "egon [command]",
-	Short:         "Work with Puppet GitHub Repoisitories",
-	Long:          "Work with Puppet GitHub Repoisitories",
+	Use:           "purr [command]",
+	Short:         "A utility tool belt for the Content and Tooling team",
+	Long:          "A utility tool belt for the Content and Tooling team",
 	Version:       version,
 	SilenceErrors: true,
 	SilenceUsage:  true,
@@ -34,8 +35,8 @@ func init() {
 	})
 
 	rootCmd.AddCommand(modules.ModulesCmd)
+	rootCmd.AddCommand(tools.ToolsCmd)
 	rootCmd.AddCommand(audit.AuditCmd)
-	rootCmd.AddCommand(issues.IssuesCmd)
 	rootCmd.AddCommand(labels.LabelsCmd)
 }
 

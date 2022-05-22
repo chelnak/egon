@@ -1,6 +1,6 @@
-//Package modules contains a custom http client that retrieves
-//module data from a given URL and returns it to the caller.
-package modules
+//Package tools contains a custom http client that retrieves
+//tool data from a given url and returns it to the caller.
+package tools
 
 import (
 	"context"
@@ -9,22 +9,22 @@ import (
 )
 
 const (
-	modulesURL = "https://puppetlabs.github.io/content-and-tooling-team/modules/list.json"
+	toolsURL = "https://puppetlabs.github.io/content-and-tooling-team/tools/list.json"
 )
 
-type ModuleClient struct {
+type ToolClient struct {
 	client *http.Client
 }
 
-type Module struct {
+type Tool struct {
 	Name        string   `json:"name"`
 	Owner       string   `json:"owner"`
 	Description string   `json:"description"`
 	Categories  []string `json:"categories"`
 }
 
-func (m *ModuleClient) GetSupportedModules(ctx context.Context) (*[]Module, error) {
-	req, err := http.NewRequest("GET", modulesURL, nil)
+func (m *ToolClient) GetTools(ctx context.Context) (*[]Tool, error) {
+	req, err := http.NewRequest("GET", toolsURL, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -37,17 +37,17 @@ func (m *ModuleClient) GetSupportedModules(ctx context.Context) (*[]Module, erro
 		return nil, err
 	}
 
-	response := new([]Module)
+	response := new([]Tool)
 	if err = json.NewDecoder(res.Body).Decode(response); err != nil {
 		return nil, err
 	}
 	return response, nil
 }
 
-func NewModuleClient(client *http.Client) *ModuleClient {
+func NewToolClient(client *http.Client) *ToolClient {
 	if client == nil {
 		client = &http.Client{}
 	}
 
-	return &ModuleClient{client: client}
+	return &ToolClient{client: client}
 }

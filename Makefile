@@ -1,12 +1,9 @@
-lint:
-	@golangci-lint run
-
 tag:
 	@git tag $(version)
 	@git push origin $(version)
 
-install:
-	@gh extension install chelnak/gh-iac
+lint:
+	@golangci-lint run
 
-upgrade:
-	@gh extension upgrade chelnak/gh-iac
+build:
+	@WORKINGDIR=$(pwd) goreleaser build --snapshot --rm-dist --single-target

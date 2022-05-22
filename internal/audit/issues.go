@@ -1,24 +1,22 @@
+// Package audit is responsible for gathering data from the requested source
+// and returning to the caller in a standardised way.
 package audit
 
 import (
 	"context"
 	"strconv"
-	"time"
 
-	"github.com/chelnak/gh-iac/internal/cmdutils"
-	"github.com/chelnak/gh-iac/internal/modules"
+	"github.com/chelnak/purr/internal/modules"
 	"github.com/cli/go-gh"
 	"github.com/google/go-github/v42/github"
-	"github.com/olekukonko/tablewriter"
-	"github.com/theckman/yacspin"
 )
 
-func GetIssueAndPRCount(repo string) error {
+func GetIssueAndPRCount(repo string) ([][]string, error) {
 	owner := "puppetlabs"
 
 	httpClient, err := gh.HTTPClient(nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	g := github.NewClient(httpClient)
@@ -29,34 +27,15 @@ func GetIssueAndPRCount(repo string) error {
 		modulesClient := modules.NewModuleClient(nil)
 		supportedModules, err := modulesClient.GetSupportedModules(ctx)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		m = *supportedModules
+
+		m = append(m, *supportedModules...)
 	} else {
-		m = make([]modules.Module, 1)
-		m[0] = modules.Module{Name: repo}
+		m = append(m, modules.Module{Name: repo})
 	}
 
-	headers := []string{"Repo", "IssueCount", "PRCount"}
-	colors := []tablewriter.Colors{{tablewriter.Normal, 93}, nil, nil}
 	data := [][]string{}
-
-	cfg := yacspin.Config{
-		Frequency:       100 * time.Millisecond,
-		CharSet:         yacspin.CharSets[11],
-		Colors:          []string{"fgGreen"},
-		SuffixAutoColon: true,
-	}
-
-	spinner, err := yacspin.New(cfg)
-	if err != nil {
-		return err
-	}
-
-	err = spinner.Start()
-	if err != nil {
-		return err
-	}
 
 	for _, module := range m {
 		listRepoOpts := github.IssueListByRepoOptions{
@@ -67,7 +46,7 @@ func GetIssueAndPRCount(repo string) error {
 
 		issues, _, err := g.Issues.ListByRepo(ctx, owner, module.Name, &listRepoOpts)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		listPROpts := github.PullRequestListOptions{
@@ -78,7 +57,7 @@ func GetIssueAndPRCount(repo string) error {
 
 		prs, _, err := g.PullRequests.List(ctx, owner, module.Name, &listPROpts)
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		issueCount := len(issues)
@@ -93,17 +72,5 @@ func GetIssueAndPRCount(repo string) error {
 		data = append(data, row)
 	}
 
-	err = spinner.Stop()
-	if err != nil {
-		return err
-	}
-
-	table := cmdutils.NewTableWriter(headers, data, colors, nil)
-
-	err = table.Write()
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return data, nil
 }

@@ -1,3 +1,5 @@
+//Package labels contains commands for managing labels on GitHub issues
+//and pull requests.
 package labels
 
 import (

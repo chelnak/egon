@@ -1,7 +1,7 @@
 package modules
 
 import (
-	"github.com/chelnak/gh-iac/internal/modules"
+	"github.com/chelnak/purr/internal/modules"
 	"github.com/spf13/cobra"
 )
 

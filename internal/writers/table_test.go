@@ -1,9 +1,10 @@
-package cmdutils
+package writers_test
 
 import (
 	"bytes"
 	"testing"
 
+	"github.com/chelnak/purr/internal/writers"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -21,7 +22,7 @@ func TestTableWriter(t *testing.T) {
 				{"foo", "bar", "baz", "qux"},
 				{"baz", "qux", "foo", "bar"},
 			},
-			want: "                   \nfoo  bar  \x1b[0;32mbaz\x1b[0m  \x1b[0;90mqux\x1b[0m  \nbaz  qux  \x1b[0;32mfoo\x1b[0m  \x1b[0;90mbar\x1b[0m  \n",
+			want: "                      \n──────────────────────\nfoo   bar   baz   qux   \nbaz   qux   foo   bar   \n",
 		},
 		{
 			name:    "with populated headers",
@@ -30,14 +31,14 @@ func TestTableWriter(t *testing.T) {
 				{"foo", "bar", "baz", "qux"},
 				{"baz", "qux", "foo", "bar"},
 			},
-			want: "foo  bar  baz  qux \nfoo  bar  \x1b[0;32mbaz\x1b[0m  \x1b[0;90mqux\x1b[0m  \nbaz  qux  \x1b[0;32mfoo\x1b[0m  \x1b[0;90mbar\x1b[0m  \n",
+			want: "foo   bar   baz   qux \n──────────────────────\nfoo   bar   baz   qux   \nbaz   qux   foo   bar   \n",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var output bytes.Buffer
-			tw := NewTableWriter(tt.headers, tt.rows, nil, &output)
+			tw := writers.NewTableWriter(tt.headers, tt.rows, nil, &output)
 			err := tw.Write()
 			assert.NoError(t, err)
 			assert.Equal(t, tt.want, output.String())

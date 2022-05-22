@@ -1,3 +1,5 @@
+//Package modules contains commands for working with
+//a subset of supported modules.
 package modules
 
 import (

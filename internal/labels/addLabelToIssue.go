@@ -1,3 +1,5 @@
+//Package labels is contains methods for managing labels on GitHub issues
+//and pull requests.
 package labels
 
 import (
@@ -50,11 +52,10 @@ func AddLabelToIssue(issue *github.Issue, labelName string, labelColor string) e
 }
 
 func hasLabel(labels []*github.Label, labelName string) bool {
-	m := make(map[string]*github.Label, len(labels))
 	for _, label := range labels {
-		m[*label.Name] = label
+		if *label.Name == labelName {
+			return true
+		}
 	}
-
-	_, ok := m[labelName]
-	return ok
+	return false
 }

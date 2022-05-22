@@ -1,11 +1,10 @@
-module github.com/chelnak/gh-iac
+module github.com/chelnak/purr
 
-go 1.17
+go 1.18
 
 require (
 	github.com/cli/go-gh v0.0.3
 	github.com/google/go-github/v42 v42.0.0
-	github.com/itchyny/gojq v0.12.6
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/spf13/cobra v1.3.0
 	github.com/stretchr/testify v1.7.0
@@ -20,7 +19,6 @@ require (
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/henvic/httpretty v0.0.6 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
-	github.com/itchyny/timefmt-go v0.1.3 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mattn/go-runewidth v0.0.13 // indirect

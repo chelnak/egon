@@ -1,3 +1,4 @@
+//Package audit contains commands that collect and return data.
 package audit
 
 import (
@@ -18,5 +19,4 @@ var AuditCmd = &cobra.Command{
 
 func init() {
 	AuditCmd.AddCommand(issuesCmd)
-	AuditCmd.AddCommand(settingsCmd)
 }

@@ -1,3 +1,3 @@
-# egon
+# purr
 
-A temporary playground repo that holds some code for poking at puppet repos
+A CLI tool that contains some useful automations. 
